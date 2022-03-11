@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.su.sportPlay.mapper.MenuMapper">
+
+    <resultMap id="menuMap" type="org.su.sportPlay.pojo.Mainmenu">
+        <id column="id" property="id"/>
+        <result column="title" property="title" />
+        <result column="path" property="path" />
+        <collection property="sList" ofType="org.su.sportPlay.pojo.Submenu" >
+            <result column="sid" property="id"/>
+            <result column="stitle" property="title"/>
+            <result column="spath" property="path"/>
+        </collection>
+    </resultMap>
+    <!--一对多的关系，所以要使用 resultMap中的 Collection-->
+    <select id="getMainMenu" resultMap="menuMap">
+        SELECT mm.*,sm.id as sid ,sm.title as stitle,sm.path as spath
+        FROM sport.mainmenu mm ,sport.submenu sm WHERE mm.id = sm.mid;
+    </select>
+</mapper>
+
